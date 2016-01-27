@@ -1,2 +1,4 @@
-export Environment from './lib/Environment'
-export Model from './lib/Model'
+import Environment from './lib/Environment'
+import Model from './lib/Model'
+
+export {Environment, Model}
