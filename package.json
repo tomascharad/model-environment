@@ -1,0 +1,31 @@
+{
+  "name": "model-environment",
+  "version": "1.0.0",
+  "description": "Creates an environment that permits to define relations between objects when receiving objects from normalized api's",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/tomascharad/model-environment.git"
+  },
+  "keywords": [
+    "flux",
+    "redux",
+    "react",
+    "model",
+    "environment",
+    "api",
+    "normalizedApi"
+  ],
+  "author": "Tomás Charad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tomascharad/model-environment/issues"
+  },
+  "homepage": "https://github.com/tomascharad/model-environment#readme",
+  "dependencies": {
+    "pluralize": "^1.2.1"
+  }
+}
