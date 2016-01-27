@@ -20,7 +20,7 @@
     "normalizedApi"
   ],
   "files": [
-    "lib"
+    "lib", "index.js"
   ],
   "author": "Tomás Charad",
   "license": "ISC",
