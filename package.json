@@ -1,10 +1,10 @@
 {
   "name": "model-environment",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Creates an environment that permits to define relations between objects when receiving objects from normalized api's",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "build": "webpack src/index.js index.js --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,9 @@
     "normalizedApi"
   ],
   "files": [
-    "lib", "index.js"
+    "lib",
+    "index.js",
+    "src"
   ],
   "author": "Tomás Charad",
   "license": "ISC",
@@ -30,5 +32,12 @@
   "homepage": "https://github.com/tomascharad/model-environment#readme",
   "dependencies": {
     "pluralize": "^1.2.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.10.4",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "webpack": "^1.12.12"
   }
 }
