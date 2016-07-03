@@ -4,6 +4,7 @@ module.exports = {
   output: {
     path: __dirname + '/',
     filename: 'index.js',
+    libraryTarget: 'umd',
   },
   module: {
     loaders: [{
