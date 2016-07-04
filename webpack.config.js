@@ -4,7 +4,7 @@ module.exports = {
   output: {
     path: __dirname + '/',
     filename: 'index.js',
-    libraryTarget: 'amd',
+    library: 'model-environment',
   },
   module: {
     loaders: [{

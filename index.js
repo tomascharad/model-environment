@@ -1,4 +1,5 @@
-define(function() { return /******/ (function(modules) { // webpackBootstrap
+var model-environment =
+/******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 
@@ -670,4 +671,4 @@ define(function() { return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Model;
 
 /***/ }
-/******/ ])});;
+/******/ ]);
