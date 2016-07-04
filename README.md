@@ -2,7 +2,7 @@ Super lightweight environment that permits to define relations between objects w
 
 # Motivation
 
-Coming from this redux statement:
+Coming from [this](http://redux.js.org/docs/basics/Reducers.html#note-on-relationships) redux statement: 
 
 > Note on Relationships
 
