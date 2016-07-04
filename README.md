@@ -103,6 +103,7 @@ getClassObjects
 getThisClass
 
 To be done:
+
 1. Somehow declare the relation name as: belongs_to or has_many to automatically expose the relations
 2. Implement more finderMethods: findAllBy, etc...
 3. Allow for objects coming from api as arrays instead of objects: [obj1, obj2, obj3] instead of {1: obj1, 2: obj2, 3: obj3}
