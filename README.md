@@ -83,11 +83,9 @@ modelOneObjects() {
   let array = [];
   let thisRef = this;
 
-  this.modelOneIds.forEach(function(modelOneId) {
-    array.push(thisRef.env().ModelOne.getById(modelOneId));
+  return this.modelOneIds.map((modelOneId) => {
+    return thisRef.env().ModelOne.getById(modelOneId);
   });
-
-  return array;
 }
 ```
 
