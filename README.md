@@ -14,18 +14,19 @@ Have you ever wanted to do things like: `user.company().employees()` in your cli
 
 # Requirements: To have a normalized api, which provides adata with the following structure:
 ```javascript
-{objects: {
+{
+  objects: {
     modelOneObjects: {
       1: {},
       2: {},
       ...
-    }
+    },
     modelTwoObjects: {
       1: {},
       2: {},
       ...
-    }
-  }
+    },
+  },
 }
 ```
 
