@@ -1,0 +1,122 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/Users/tomascharad/.nvm/versions/node/v6.2.1/bin/node',
+1 verbose cli   '/Users/tomascharad/.nvm/versions/node/v6.2.1/bin/npm',
+1 verbose cli   'publish' ]
+2 info using npm@3.9.3
+3 info using node@v6.2.1
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/Users/tomascharad/Devapps/model-environment',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /Users/tomascharad/.npm/model-environment/1.0.13/package.tgz not in flight; packing
+9 verbose correctMkdir /Users/tomascharad/.npm correctMkdir not in flight; initializing
+10 info lifecycle model-environment@1.0.13~prepublish: model-environment@1.0.13
+11 silly lifecycle model-environment@1.0.13~prepublish: no script for prepublish, continuing
+12 verbose tar pack [ '/Users/tomascharad/.npm/model-environment/1.0.13/package.tgz',
+12 verbose tar pack   '/Users/tomascharad/Devapps/model-environment' ]
+13 verbose tarball /Users/tomascharad/.npm/model-environment/1.0.13/package.tgz
+14 verbose folder /Users/tomascharad/Devapps/model-environment
+15 verbose addLocalTarball adding from inside cache /Users/tomascharad/.npm/model-environment/1.0.13/package.tgz
+16 verbose correctMkdir /Users/tomascharad/.npm correctMkdir not in flight; initializing
+17 silly cache afterAdd model-environment@1.0.13
+18 verbose afterAdd /Users/tomascharad/.npm/model-environment/1.0.13/package/package.json not in flight; writing
+19 verbose correctMkdir /Users/tomascharad/.npm correctMkdir not in flight; initializing
+20 verbose afterAdd /Users/tomascharad/.npm/model-environment/1.0.13/package/package.json written
+21 silly publish { name: 'model-environment',
+21 silly publish   version: '1.0.13',
+21 silly publish   description: 'Creates an environment that permits to define relations between objects when receiving objects from normalized api\'s',
+21 silly publish   main: 'index.js',
+21 silly publish   scripts: { build: 'webpack src/index.js index.js --config webpack.config.js' },
+21 silly publish   repository:
+21 silly publish    { type: 'git',
+21 silly publish      url: 'git+ssh://git@github.com/tomascharad/model-environment.git' },
+21 silly publish   keywords:
+21 silly publish    [ 'flux',
+21 silly publish      'redux',
+21 silly publish      'react',
+21 silly publish      'model',
+21 silly publish      'environment',
+21 silly publish      'api',
+21 silly publish      'normalizedApi' ],
+21 silly publish   files: [ 'lib', 'index.js', 'src' ],
+21 silly publish   author: { name: 'Tomás Charad' },
+21 silly publish   license: 'ISC',
+21 silly publish   bugs: { url: 'https://github.com/tomascharad/model-environment/issues' },
+21 silly publish   homepage: 'https://github.com/tomascharad/model-environment#readme',
+21 silly publish   dependencies: { pluralize: '^1.2.1' },
+21 silly publish   devDependencies:
+21 silly publish    { 'babel-core': '^6.10.4',
+21 silly publish      'babel-loader': '^6.2.4',
+21 silly publish      'babel-preset-es2015': '^6.9.0',
+21 silly publish      'babel-preset-stage-0': '^6.5.0',
+21 silly publish      webpack: '^1.12.12' },
+21 silly publish   readme: 'Super lightweight environment that permits to define relations between objects when receiving objects from normalized api\'s\n\n# Motivation\n\nComing from [this](http://redux.js.org/docs/basics/Reducers.html#note-on-relationships) redux statement: \n\n> Note on Relationships\n\n> In a more complex app, you’re going to want different entities to reference each other. We suggest that you keep your state as normalized as possible, without any nesting. Keep every entity in an object stored with an ID as a key, and use IDs to reference it from other entities, or lists. Think of the app’s state as a database. This approach is described in normalizr\'s documentation in detail. For example, keeping todosById: { id -> todo } and todos: array<id> inside the state would be a better idea in a real app, but we’re keeping the example simple.\n\nBut, we all know that is very difficult to recreate all of this relations in our client-side app... This is why model-environment was created for.\n\nHave you ever wanted to do things like: `user.company().employees()` in your client-side app?\n\n# Requirements: To have a normalized api, which provides adata with the following structure:\n```javascript\n{\n  objects: {\n    modelOneObjects: {\n      1: {},\n      2: {},\n      ...\n    },\n    modelTwoObjects: {\n      1: {},\n      2: {},\n      ...\n    },\n  },\n}\n```\n\n# Installation: \n\n```bash\nnpm install --save model-enviroment\n```\n\n# Usage: \n\n```javascript\nimport ModelEnvironment from \'model-enviroment\';\nimport * as Models from \'path/to/your/models/index\';\n```\n\nAll of your models must extend from Model\n\n```javascript\nimport ModelEnvironment from \'model-enviroment\';\nclass ModelOne extends ModelEnvironment.Model {\n  ...\n}\nclass ModelTwo extends ModelEnvironment.Model {\n  ...\n}\n```\n\nIn your component render view\n\n```javascript\nimport * as Models from \'path/to/your/models/index\'\nconts env = new Environment({this.props.objects}, Models).parseDB\n```\nThen you can do:\n```javascript\nenv.objects.parsedModelOneObjects[1]\n```\nor\n\n```javascript\nenv.objects.parsedModelOneObjects[1].env().ModelTwo.findBy(\'modelOneId\', 2);\n```\n\nYou can also define relations on your models as this:\nOn ModelTwo.js\n\n```javascript\nmodelOneObject() {\n  return this.env().ModelOne.getById(this.modelOneId);\n}\n```\n\nOr if it is a many to many relation:\n```javascript\nmodelOneObjects() {\n  let array = [];\n  let thisRef = this;\n\n  return this.modelOneIds.map((modelOneId) => {\n    return thisRef.env().ModelOne.getById(modelOneId);\n  });\n}\n```\n\nModel static methods api:\nFinder methods:\ngetById\nfindBy\nall\n\nOthers:\ngetClassPluralizedName\ngetClassObjects\ngetThisClass\n\nTo be done:\n\n1. Somehow declare the relation name as: belongs_to or has_many to automatically expose the relations\n2. Implement more finderMethods: findAllBy, etc...\n3. Allow for objects coming from api as arrays instead of objects: [obj1, obj2, obj3] instead of {1: obj1, 2: obj2, 3: obj3}\n',
+21 silly publish   readmeFilename: 'README.md',
+21 silly publish   gitHead: '090a5bd7e1212f2afad00987453b5f40bffbf0e1',
+21 silly publish   _id: 'model-environment@1.0.13',
+21 silly publish   _shasum: 'bea7de2c862380ba7add5aad71b0223f640df48d',
+21 silly publish   _from: '.' }
+22 verbose getPublishConfig undefined
+23 silly mapToRegistry name model-environment
+24 silly mapToRegistry using default registry
+25 silly mapToRegistry registry https://registry.npmjs.org/
+26 silly mapToRegistry data Result {
+26 silly mapToRegistry   raw: 'model-environment',
+26 silly mapToRegistry   scope: null,
+26 silly mapToRegistry   name: 'model-environment',
+26 silly mapToRegistry   rawSpec: '',
+26 silly mapToRegistry   spec: 'latest',
+26 silly mapToRegistry   type: 'tag' }
+27 silly mapToRegistry uri https://registry.npmjs.org/model-environment
+28 verbose publish registryBase https://registry.npmjs.org/
+29 silly publish uploading /Users/tomascharad/.npm/model-environment/1.0.13/package.tgz
+30 verbose request uri https://registry.npmjs.org/model-environment
+31 verbose request sending authorization for write operation
+32 info attempt registry request try #1 at 6:13:42 PM
+33 verbose request using bearer token for auth
+34 verbose request id cf88386c35bd5982
+35 http request PUT https://registry.npmjs.org/model-environment
+36 http 403 https://registry.npmjs.org/model-environment
+37 verbose headers { 'content-type': 'application/json',
+37 verbose headers   'cache-control': 'max-age=300',
+37 verbose headers   'content-length': '96',
+37 verbose headers   'accept-ranges': 'bytes',
+37 verbose headers   date: 'Mon, 04 Jul 2016 22:13:18 GMT',
+37 verbose headers   via: '1.1 varnish',
+37 verbose headers   connection: 'keep-alive',
+37 verbose headers   'x-served-by': 'cache-gru7124-GRU',
+37 verbose headers   'x-cache': 'MISS',
+37 verbose headers   'x-cache-hits': '0',
+37 verbose headers   'x-timer': 'S1467670397.262700,VS0,VE769',
+37 verbose headers   vary: 'Accept-Encoding' }
+38 verbose request invalidating /Users/tomascharad/.npm/registry.npmjs.org/model-environment on PUT
+39 error publish Failed PUT 403
+40 verbose stack Error: "You cannot publish over the previously published version 1.0.13." : model-environment
+40 verbose stack     at makeError (/Users/tomascharad/.nvm/versions/node/v6.2.1/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+40 verbose stack     at CachingRegistryClient.<anonymous> (/Users/tomascharad/.nvm/versions/node/v6.2.1/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+40 verbose stack     at Request._callback (/Users/tomascharad/.nvm/versions/node/v6.2.1/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+40 verbose stack     at Request.self.callback (/Users/tomascharad/.nvm/versions/node/v6.2.1/lib/node_modules/npm/node_modules/request/request.js:200:22)
+40 verbose stack     at emitTwo (events.js:106:13)
+40 verbose stack     at Request.emit (events.js:191:7)
+40 verbose stack     at Request.<anonymous> (/Users/tomascharad/.nvm/versions/node/v6.2.1/lib/node_modules/npm/node_modules/request/request.js:1067:10)
+40 verbose stack     at emitOne (events.js:101:20)
+40 verbose stack     at Request.emit (events.js:188:7)
+40 verbose stack     at IncomingMessage.<anonymous> (/Users/tomascharad/.nvm/versions/node/v6.2.1/lib/node_modules/npm/node_modules/request/request.js:988:12)
+41 verbose statusCode 403
+42 verbose pkgid model-environment
+43 verbose cwd /Users/tomascharad/Devapps/model-environment
+44 error Darwin 15.4.0
+45 error argv "/Users/tomascharad/.nvm/versions/node/v6.2.1/bin/node" "/Users/tomascharad/.nvm/versions/node/v6.2.1/bin/npm" "publish"
+46 error node v6.2.1
+47 error npm  v3.9.3
+48 error code E403
+49 error "You cannot publish over the previously published version 1.0.13." : model-environment
+50 error If you need help, you may report this error at:
+50 error     <https://github.com/npm/npm/issues>
+51 verbose exit [ 1, true ]
