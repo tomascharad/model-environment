@@ -5,6 +5,7 @@ module.exports = {
     path: __dirname + '/',
     filename: 'index.js',
     library: 'model-environment',
+    libraryTarget: 'umd',
   },
   module: {
     loaders: [{
