@@ -10,6 +10,8 @@ Coming from this redux statement:
 
 But, we all know that is very difficult to recreate all of this relations in our client-side app... This is why model-environment was created for.
 
+Have you ever wanted to do things like: `user.company().employees()` in your client-side app?
+
 # Requirements: To have a normalized api, which provides adata with the following structure:
 ```javascript
 {objects: {
