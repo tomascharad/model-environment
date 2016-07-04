@@ -56,9 +56,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var Environment = __webpack_require__(1);
-	var Model = __webpack_require__(3);
-	module.exports = { Environment: Environment, Model: Model };
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _Environment = __webpack_require__(1);
+
+	var _Environment2 = _interopRequireDefault(_Environment);
+
+	var _Model = __webpack_require__(3);
+
+	var _Model2 = _interopRequireDefault(_Model);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = { Model: _Model2.default, Environment: _Environment2.default };
 
 /***/ },
 /* 1 */
