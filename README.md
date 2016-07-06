@@ -10,7 +10,7 @@ Coming from [this](http://redux.js.org/docs/basics/Reducers.html#note-on-relatio
 
 And because it is [hard](https://groups.google.com/forum/#!topic/reactjs/jbh50-GJxpg) to consume data from nested API responses. You would like to have a normalized Api or normalize it with [normalizr](https://github.com/paularmstrong/normalizr)
 
-But, we all know that is very difficult to recreate all of these relations in our client-side app... This is why model-environment was created for.
+So we think that normalized api's are here to stay... but, is very difficult to recreate all of these relations in our client-side app... This is why model-environment was created for.
 
 Have you ever wanted to do things like: `user.company().employees()` in your client-side app?
 

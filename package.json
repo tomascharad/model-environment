@@ -1,6 +1,6 @@
 {
   "name": "model-environment",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "description": "Creates an environment that permits to define relations between objects when receiving data from normalized Api's",
   "main": "index.js",
   "scripts": {
