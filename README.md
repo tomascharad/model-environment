@@ -14,7 +14,9 @@ But, we all know that is very difficult to recreate all of these relations in ou
 
 Have you ever wanted to do things like: `user.company().employees()` in your client-side app?
 
-# Requirements: To have a normalized api (or normalize it), which provides of data with the following structure (we are currently working in the array version):
+# Requirements
+
+To have a normalized api (or normalize it), which provides of data with the following structure (we are currently working in the array version):
 ```javascript
 {
   objects: {
@@ -57,7 +59,7 @@ class ModelTwo extends ModelEnvironment.Model {
 }
 ```
 
-In your component render view
+When you first load your data, update it (or in your component render view if you are using redux, or in your respective selector if you are using them wisely):
 
 ```javascript
 import * as Models from 'path/to/your/models/index'
