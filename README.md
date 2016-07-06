@@ -178,7 +178,7 @@ getClassPluralizedName
 getClassObjects
 getThisClass
 
-To be done:
+# To be done:
 
 1. Somehow declare the relation name as: belongs_to or has_many to automatically expose the relations
 2. Implement more finderMethods: findAllBy, etc...
