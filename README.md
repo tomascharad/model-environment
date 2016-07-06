@@ -108,14 +108,13 @@ If you are passing the users objects like these:
       1: {
         email: tomas@tcit.cl
         name: Tomás
-        }
-      }, 
+      },
       2: {
         email: felipe@tcit.cl
         name: Felipe
-        }
-      }
-  }
+      },
+    },
+  },
 }
 ```
 
