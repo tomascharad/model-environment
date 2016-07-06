@@ -168,24 +168,25 @@ render json: data
 
 If you are interested in `ApiNormalization.get_objects_hash` please write us so we can publish that module, but basically it maps a hash with each object id as it key and the object's data as the value.
 
-# What we would love to test
+# What we would love to try
 
 **Universal apps built with these models!** So you can share your relations between your client and server side logic.
 
 # Model static methods api
 Finder methods:
-getById
-findBy
-all
+1. Model.getById()
+2. Model.findBy()
+3. Model.findAllBy()
+4. Model.all()
 
 Others:
-getClassPluralizedName
-getClassObjects
-getThisClass
+1. Model.getClassPluralizedName()
+2. Model.getClassObjects()
+3. Model.getThisClass()
 
 # To be done:
 
 1. Somehow declare the relation name as: belongs_to or has_many to automatically expose the relations
-2. Implement more finderMethods: findAllBy, etc...
+2. Implement more finderMethods: where, etc... are these really important?
 3. Allow for objects coming from api as arrays instead of objects: [obj1, obj2, obj3] instead of {1: obj1, 2: obj2, 3: obj3}
 4. Optimize Environment creation with reselect?
