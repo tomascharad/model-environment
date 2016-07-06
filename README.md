@@ -159,7 +159,7 @@ data = {
 }
 
 render json: data
-``
+```
 
 If you are interested in `ApiNormalization.get_objects_hash` please write us so we can publish that module, but basically it maps a hash with each object id as it key and the object's data as the value.
 
