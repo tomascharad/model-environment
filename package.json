@@ -1,7 +1,7 @@
 {
   "name": "model-environment",
-  "version": "1.0.15",
-  "description": "Creates an environment that permits to define relations between objects when receiving objects from normalized api's",
+  "version": "1.0.16",
+  "description": "Creates an environment that permits to define relations between objects when receiving data from normalized Api's",
   "main": "index.js",
   "scripts": {
     "build": "webpack src/index.js index.js --config webpack.config.js"
