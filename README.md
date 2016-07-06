@@ -133,7 +133,41 @@ On translating a normalized api into objects that are built from classes that ha
 And remarkable difference is that model-environment is not coupled to redux, so you can use it with angular, angular2, backbone, ember, etc...
 This also allows you to update your state as you would do it naturally with redux.
 
-Model static methods api:
+# From our experience
+We use this library already on four project in our [company](http://www.tcit.cl/) and what we are most impressed about it is:
+1. Performance: At the beggining we were afraid of how much would it take to re build the whole environment each time we update the state, even more if you have your form controls binded with the state, but it performed perfectly
+2. **Api reusability**: After you have defined your models and learned how to build a normalized api, you will be impressed how agnostic your views can get from your backend relations, you just pass the data normalized and your environment re-uses all your previously defined relations, after you experience this you will be impressed
+3. Performance of using normalized apis: Fetching your data into nested objects is awfull, long, and tedious. Is much easier (after you learn), and you automatically are eager loading your data! No awfull prefetching code (take a look at rails `includes` or django's `prefetch`)!. Most of our apps are backed up in Rails, so we can give you a sample of how we do it (Should be very easy to replicate in Node):
+
+```ruby
+causes = Cause.all
+causes_ids = causes.map(&:id)
+veredicts = Veredict.where("cause_id IN (?)", causes_ids).to_a
+parties_ids = causes.map(&:issuer_party_id) + causes.map(&:receiver_party_id)
+parties = Party.where("id IN (?)", parties_ids).to_a
+
+causes_hash = ApiNormalization.get_objects_hash causes
+veredicts_hash = ApiNormalization.get_objects_hash veredicts
+parties_hash = ApiNormalization.get_objects_hash parties
+
+data = {
+  objects:{
+    causes: causes_hash,
+    veredicts: veredicts_hash,
+    parties: parties_hash,
+  }
+}
+
+render json: data
+``
+
+If you are interested in `ApiNormalization.get_objects_hash` please write us so we can publish that module, but basically it maps a hash with each object id as it key and the object's data as the value.
+
+# What we would love to test
+
+**Universal apps built with these models!** So you can share your relations between your client and server side logic.
+
+# Model static methods api
 Finder methods:
 getById
 findBy
