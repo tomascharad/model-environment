@@ -1,4 +1,9 @@
+# Model Environment
+
 Super lightweight environment that permits to define relations between objects when receiving data from normalized api's
+
+[![npm version](https://img.shields.io/npm/v/model-environment.svg?style=flat-square)](https://www.npmjs.com/package/model-environment)
+[![npm downloads](https://img.shields.io/npm/dm/model-environment.svg?style=flat-square)](https://www.npmjs.com/package/model-environment)
 
 # Motivation
 
