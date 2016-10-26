@@ -14,12 +14,12 @@ export default class Model {
 
   static getById(id) {
     let modelObject = {};
-    const modelPluralizedName = pluralize(firstLetterLowerCase(this.name));
+    const modelPluralizedName = pluralize(firstLetterLowerCase(this.prototype.modelEnvironmentName()));
     const modelObjects = this.env.db.objects[modelPluralizedName];
     if (modelObjects) {
       const object = modelObjects[id];
       if (object) {
-        modelObject = new this.env[this.name](object);
+        modelObject = new this.env[this.prototype.modelEnvironmentName()](object);
       } else {
         throw new Error('Object of class "' + modelPluralizedName + '" with id ' + id + ' was not found');
       }
@@ -30,7 +30,7 @@ export default class Model {
   }
 
   static getClassPluralizedName() {
-    return pluralize(firstLetterLowerCase(this.name));
+    return pluralize(firstLetterLowerCase(this.prototype.modelEnvironmentName()));
   }
 
   static getClassObjects() {
@@ -38,7 +38,7 @@ export default class Model {
   }
 
   static getThisClass() {
-    return this.env[this.name];
+    return this.env[this.prototype.modelEnvironmentName()];
   }
 
   static findBy(prop, value) {

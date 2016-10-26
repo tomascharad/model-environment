@@ -10,13 +10,13 @@ function firstLetterLowerCase(string) {
 }
 
 export default function Environment(db, Models) {
-  this.db = db;
-  const environment = this;
+
+  const environment = {};
 
   for (const modelName in Models) {
     const Model = Models[modelName];
 
-    this[modelName] = Object.assign(Model, { env: this });
+    environment[modelName] = Object.assign(Model, { env: {db} });
   }
 
   this.parseDB = function () {
@@ -25,6 +25,8 @@ export default function Environment(db, Models) {
     const objects = db.objects;
 
     for (const modelName in Models) {
+      // TCT: See if we can inject the model name here, as it is an object key, minification doesn't mangle the name
+      // Models[modelName].modelEnviornmentName = () => modelName;
       const pluralizedModelName = pluralize(firstLetterLowerCase(modelName));
 
       modelObjects[pluralizedModelName] = {};
