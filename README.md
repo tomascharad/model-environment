@@ -48,20 +48,9 @@ npm install --save model-enviroment
 # Usage: 
 
 ```javascript
-import ModelEnvironment from 'model-enviroment';
+import { Model } from 'model-enviroment';
+import { Environment } from 'model-enviroment';
 import * as Models from 'path/to/your/models/index';
-```
-
-All of your models must extend from Model
-
-```javascript
-import ModelEnvironment from 'model-enviroment';
-class ModelOne extends ModelEnvironment.Model {
-  ...
-}
-class ModelTwo extends ModelEnvironment.Model {
-  ...
-}
 ```
 
 When you first load your data, update it (or in your component render view if you are using redux, or in your respective selector if you are using them wisely):
@@ -123,13 +112,10 @@ If you are passing the users objects like these:
 }
 ```
 
-Then your Model has to be named `User` (as in Rails conventions).
+Then your Models index must export the same names, or a warning will show on console remembering you that.
+Also, the searcher methods for relations will have those names.
 
 ## Similarities with [redux-orm](https://github.com/tommikaikkonen/redux-orm)
-
-### The main similarity 
-
-Is the `extends Model`. But the differences are considerable.
 
 ### We focus
 On translating a normalized api into objects that are built from classes that have relations between each other.
@@ -172,7 +158,7 @@ If you are interested in `ApiNormalization.get_objects_hash` please write us so 
 
 **Universal apps built with these models!** So you can share your relations between your client and server side logic.
 
-# Model static methods api
+# Searcher methods api
 Finder methods:
 1. Model.getById()
 2. Model.findBy()
