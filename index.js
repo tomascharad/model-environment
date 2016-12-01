@@ -659,12 +659,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function all() {
 	      var _this = this;
 
-	      var objects = {};
+	      var objects = [];
 	      var classObjects = this.getClassObjects();
 
 	      Object.keys(classObjects).forEach(function (id) {
 	        var objectData = classObjects[id];
-	        objects[id] = _this.createModelInstance(objectData);
+	        objects.push(_this.createModelInstance(objectData));
 	      });
 	      return objects;
 	    }

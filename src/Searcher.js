@@ -47,12 +47,12 @@ export default class Searcher {
   }
 
   all() {
-    const objects = {};
+    const objects = [];
     const classObjects = this.getClassObjects();
 
     Object.keys(classObjects).forEach((id) => {
       const objectData = classObjects[id];
-      objects[id] = this.createModelInstance(objectData);
+      objects.push(this.createModelInstance(objectData));
     });
     return objects;
   }
