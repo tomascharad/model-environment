@@ -68,7 +68,7 @@ When you first load your data, update it (or in your component render view if yo
 
 ```javascript
 import * as Models from 'path/to/your/models/index'
-conts env = new Environment({this.props.objects}, Models).parseDB()
+const env = new Environment({this.props.objects}, Models).parseDB()
 ```
 Then you can do:
 ```javascript
@@ -111,12 +111,12 @@ If you are passing the users objects like these:
   objects: {
     users: {
       1: {
-        email: tomas@tcit.cl
-        name: Tomás
+        email: "tomas@tcit.cl"
+        name: "Tomás"
       },
       2: {
-        email: felipe@tcit.cl
-        name: Felipe
+        email: "felipe@tcit.cl"
+        name: "Felipe"
       },
     },
   },
