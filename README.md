@@ -53,6 +53,17 @@ import { Environment } from 'model-enviroment';
 import * as Models from 'path/to/your/models/index';
 ```
 
+Declare your models
+
+```javascript
+class ModelOne {
+  ...
+}
+class ModelTwo {
+  ...
+}
+```
+
 When you first load your data, update it (or in your component render view if you are using redux, or in your respective selector if you are using them wisely):
 
 ```javascript
