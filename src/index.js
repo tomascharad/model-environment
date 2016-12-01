@@ -1,3 +1,2 @@
-import Environment from './Environment';
-import Model from './Model';
-export default { Model, Environment };
+export Environment from './Environment';
+export Model from './Model';

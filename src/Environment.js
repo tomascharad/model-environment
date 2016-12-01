@@ -1,49 +1,45 @@
 import pluralize from 'pluralize';
+import Searcher from './Searcher';
+import {firstLetterLowerCase, isFunction} from './helpers';
 
-function isFunction(functionToCheck) {
- var getType = {};
- return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
-}
-
-function firstLetterLowerCase(string) {
-  return string.charAt(0).toLowerCase() + string.slice(1);
-}
-
-export default function Environment(db, Models) {
-  this.db = db;
-  const environment = this;
+export default function Environment(db, _Models) {
+  const Models = _Models;
+  const environment = {};
 
   for (const modelName in Models) {
     const Model = Models[modelName];
-
-    this[modelName] = Object.assign(Model, { env: this });
+    environment[modelName] = new Searcher(db, modelName, Model, environment);
   }
 
-  this.parseDB = function () {
+  this.parseDB = function() {
+    // TCT: TODO paseDB should return a searcher, which expose Models with its finder methods in order to find particular instances, parseing the whole DB is not efficient as other objects not used in the entry point won't be used
     const modelObjects = {};
     const modelObjectsDict = {};
     const objects = db.objects;
 
     for (const modelName in Models) {
+      // TCT: See if we can inject the model name here, as it is an object key, minification doesn't mangle the name
+      // Models[modelName].modelEnviornmentName = () => modelName;
       const pluralizedModelName = pluralize(firstLetterLowerCase(modelName));
 
       modelObjects[pluralizedModelName] = {};
       modelObjectsDict[pluralizedModelName] = modelName;
     }
 
-    Object.keys(objects).forEach(function (classKey) {
+    Object.keys(objects).forEach((classKey) => {
       const rows = objects[classKey];
 
-      Object.keys(rows).forEach(function (idKey) {
-        if (isFunction(environment[modelObjectsDict[classKey]])) {
-          modelObjects[classKey][idKey] = new environment[modelObjectsDict[classKey]](objects[classKey][idKey]);
+      Object.keys(rows).forEach((idKey) => {
+        if (Models[modelObjectsDict[classKey]]) {
+          modelObjects[classKey][idKey] = new Models[modelObjectsDict[classKey]](objects[classKey][idKey]);
+          modelObjects[classKey][idKey].env = () => environment;
         } else {
-          console.log('Remember to add ' + classKey + ' To you models');
+          console.log('Remember to add ' + classKey + ' To your models');
         }
       });
     });
     return {
-      objects: modelObjects,
+      objects: modelObjects
     };
   };
 }

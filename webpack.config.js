@@ -1,8 +1,9 @@
+var webpack = require('webpack');
+var path = require('path');
 module.exports = {
-  context: __dirname + '/',
-  entry: './src/index',
+  entry: path.resolve('./src/index'),
   output: {
-    path: __dirname + '/',
+    path: path.resolve('./'),
     filename: 'index.js',
     library: 'model-environment',
     libraryTarget: 'umd',
@@ -14,4 +15,8 @@ module.exports = {
       exclude: /node_modules/,
     }],
   },
+  resolve: {
+    root: path.resolve('./src'),
+    extensions: ['', '.js']
+  }
 };

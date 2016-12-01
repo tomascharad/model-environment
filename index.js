@@ -59,18 +59,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.Model = exports.Environment = undefined;
 
-	var _Environment = __webpack_require__(1);
+	var _Environment2 = __webpack_require__(1);
 
-	var _Environment2 = _interopRequireDefault(_Environment);
+	var _Environment3 = _interopRequireDefault(_Environment2);
 
-	var _Model = __webpack_require__(3);
+	var _Model2 = __webpack_require__(5);
 
-	var _Model2 = _interopRequireDefault(_Model);
+	var _Model3 = _interopRequireDefault(_Model2);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	exports.default = { Model: _Model2.default, Environment: _Environment2.default };
+	exports.Environment = _Environment3.default;
+	exports.Model = _Model3.default;
 
 /***/ },
 /* 1 */
@@ -87,34 +89,33 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _pluralize2 = _interopRequireDefault(_pluralize);
 
+	var _Searcher = __webpack_require__(3);
+
+	var _Searcher2 = _interopRequireDefault(_Searcher);
+
+	var _helpers = __webpack_require__(4);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function isFunction(functionToCheck) {
-	  var getType = {};
-	  return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
-	}
-
-	function firstLetterLowerCase(string) {
-	  return string.charAt(0).toLowerCase() + string.slice(1);
-	}
-
-	function Environment(db, Models) {
-	  this.db = db;
-	  var environment = this;
+	function Environment(db, _Models) {
+	  var Models = _Models;
+	  var environment = {};
 
 	  for (var modelName in Models) {
 	    var Model = Models[modelName];
-
-	    this[modelName] = Object.assign(Model, { env: this });
+	    environment[modelName] = new _Searcher2.default(db, modelName, Model, environment);
 	  }
 
 	  this.parseDB = function () {
+	    // TCT: TODO paseDB should return a searcher, which expose Models with its finder methods in order to find particular instances, parseing the whole DB is not efficient as other objects not used in the entry point won't be used
 	    var modelObjects = {};
 	    var modelObjectsDict = {};
 	    var objects = db.objects;
 
 	    for (var _modelName in Models) {
-	      var pluralizedModelName = (0, _pluralize2.default)(firstLetterLowerCase(_modelName));
+	      // TCT: See if we can inject the model name here, as it is an object key, minification doesn't mangle the name
+	      // Models[modelName].modelEnviornmentName = () => modelName;
+	      var pluralizedModelName = (0, _pluralize2.default)((0, _helpers.firstLetterLowerCase)(_modelName));
 
 	      modelObjects[pluralizedModelName] = {};
 	      modelObjectsDict[pluralizedModelName] = _modelName;
@@ -124,10 +125,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var rows = objects[classKey];
 
 	      Object.keys(rows).forEach(function (idKey) {
-	        if (isFunction(environment[modelObjectsDict[classKey]])) {
-	          modelObjects[classKey][idKey] = new environment[modelObjectsDict[classKey]](objects[classKey][idKey]);
+	        if (Models[modelObjectsDict[classKey]]) {
+	          modelObjects[classKey][idKey] = new Models[modelObjectsDict[classKey]](objects[classKey][idKey]);
+	          modelObjects[classKey][idKey].env = function () {
+	            return environment;
+	          };
 	        } else {
-	          console.log('Remember to add ' + classKey + ' To you models');
+	          console.log('Remember to add ' + classKey + ' To your models');
 	        }
 	      });
 	    });
@@ -592,34 +596,56 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _pluralize2 = _interopRequireDefault(_pluralize);
 
+	var _helpers = __webpack_require__(4);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function firstLetterLowerCase(string) {
-	  return string.charAt(0).toLowerCase() + string.slice(1);
-	}
+	var Searcher = function () {
+	  function Searcher(db, name, Model, environment) {
+	    _classCallCheck(this, Searcher);
 
-	var Model = function () {
-	  function Model() {
-	    _classCallCheck(this, Model);
+	    this.db = db;
+	    this.name = name;
+	    this.Model = Model;
+	    this.environment = environment;
 	  }
 
-	  _createClass(Model, [{
-	    key: 'env',
-	    value: function env() {
-	      return this.constructor.env;
+	  _createClass(Searcher, [{
+	    key: 'getClassObjects',
+	    value: function getClassObjects() {
+	      return this.db.objects[this.getClassPluralizedName()];
 	    }
-	  }], [{
+	  }, {
+	    key: 'getClassPluralizedName',
+	    value: function getClassPluralizedName() {
+	      return (0, _pluralize2.default)((0, _helpers.firstLetterLowerCase)(this.name));
+	    }
+	  }, {
+	    key: 'findBy',
+	    value: function findBy(prop, value) {
+	      var classObjects = this.getClassObjects();
+	      var foundObject = null;
+
+	      for (var objectId in classObjects) {
+	        var object = classObjects[objectId];
+	        if (object[prop] === value && !foundObject) {
+	          foundObject = this.createModelInstance(object);
+	        }
+	      }
+	      return foundObject;
+	    }
+	  }, {
 	    key: 'getById',
 	    value: function getById(id) {
 	      var modelObject = {};
-	      var modelPluralizedName = (0, _pluralize2.default)(firstLetterLowerCase(this.name));
-	      var modelObjects = this.env.db.objects[modelPluralizedName];
+	      var modelPluralizedName = this.getClassPluralizedName();
+	      var modelObjects = this.db.objects[modelPluralizedName];
 	      if (modelObjects) {
 	        var object = modelObjects[id];
 	        if (object) {
-	          modelObject = new this.env[this.name](object);
+	          modelObject = this.createModelInstance(object);
 	        } else {
 	          throw new Error('Object of class "' + modelPluralizedName + '" with id ' + id + ' was not found');
 	        }
@@ -629,44 +655,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return modelObject;
 	    }
 	  }, {
-	    key: 'getClassPluralizedName',
-	    value: function getClassPluralizedName() {
-	      return (0, _pluralize2.default)(firstLetterLowerCase(this.name));
-	    }
-	  }, {
-	    key: 'getClassObjects',
-	    value: function getClassObjects() {
-	      return this.env.db.objects[this.getClassPluralizedName()];
-	    }
-	  }, {
-	    key: 'getThisClass',
-	    value: function getThisClass() {
-	      return this.env[this.name];
-	    }
-	  }, {
-	    key: 'findBy',
-	    value: function findBy(prop, value) {
-	      var classObjects = this.getClassObjects();
-	      var ThisClass = this.getThisClass();
-
-	      for (var objectId in classObjects) {
-	        var object = classObjects[objectId];
-	        if (object[prop] === value) {
-	          return new ThisClass(object);
-	        }
-	      }
-	    }
-	  }, {
 	    key: 'all',
 	    value: function all() {
-	      var db = this.env.db;
-	      var ThisClass = this.getThisClass();
-	      var objects = {};
+	      var _this = this;
+
+	      var objects = [];
 	      var classObjects = this.getClassObjects();
 
-	      Object.keys(classObjects).forEach(function (causeId) {
-	        var objectData = classObjects[causeId];
-	        objects[causeId] = new ThisClass(objectData);
+	      Object.keys(classObjects).forEach(function (id) {
+	        var objectData = classObjects[id];
+	        objects.push(_this.createModelInstance(objectData));
 	      });
 	      return objects;
 	    }
@@ -674,20 +672,68 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'findAllBy',
 	    value: function findAllBy(prop, value) {
 	      var classObjects = this.getClassObjects();
-	      var ThisClass = this.getThisClass();
 	      var objects = [];
 	      for (var objectId in classObjects) {
 	        var object = classObjects[objectId];
 	        if (object[prop] === value) {
-	          objects.push(new ThisClass(object));
+	          objects.push(this.createModelInstance(object));
 	        }
 	      }
 	      return objects;
 	    }
+	  }, {
+	    key: 'createModelInstance',
+	    value: function createModelInstance(data) {
+	      var _this2 = this;
+
+	      var object = new this.Model(data);
+	      object.env = function () {
+	        return _this2.environment;
+	      };
+	      return object;
+	    }
 	  }]);
 
-	  return Model;
+	  return Searcher;
 	}();
+
+	exports.default = Searcher;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.isFunction = isFunction;
+	exports.firstLetterLowerCase = firstLetterLowerCase;
+	function isFunction(functionToCheck) {
+	  var getType = {};
+	  return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+	}
+
+	function firstLetterLowerCase(string) {
+	  return string.charAt(0).toLowerCase() + string.slice(1);
+	}
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Model = function Model() {
+	  _classCallCheck(this, Model);
+	};
 
 	exports.default = Model;
 
