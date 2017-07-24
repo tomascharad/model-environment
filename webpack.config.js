@@ -6,14 +6,14 @@ module.exports = {
     path: path.resolve('./'),
     filename: 'index.js',
     library: 'model-environment',
-    libraryTarget: 'umd',
+    libraryTarget: 'umd'
   },
   module: {
     loaders: [{
       test: /\.js$/, // Transform all .js files required somewhere with Babel
       loader: 'babel',
-      exclude: /node_modules/,
-    }],
+      exclude: /node_modules/
+    }]
   },
   resolve: {
     root: path.resolve('./src'),

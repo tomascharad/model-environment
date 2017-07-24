@@ -30,15 +30,13 @@ export default class Searcher {
   }
 
   getById(id) {
-    let modelObject = {};
+    let modelObject = null;
     const modelPluralizedName = this.getClassPluralizedName();
     const modelObjects = this.db.objects[modelPluralizedName];
     if (modelObjects) {
       const object = modelObjects[id];
       if (object) {
         modelObject = this.createModelInstance(object);
-      } else {
-        throw new Error('Object of class "' + modelPluralizedName + '" with id ' + id + ' was not found');
       }
     } else {
       throw new Error('Maybe you forgot to send the corresponding "' + modelPluralizedName + '" object in your objects hash on your Environment initialization');
