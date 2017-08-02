@@ -639,15 +639,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'getById',
 	    value: function getById(id) {
-	      var modelObject = {};
+	      var modelObject = null;
 	      var modelPluralizedName = this.getClassPluralizedName();
 	      var modelObjects = this.db.objects[modelPluralizedName];
 	      if (modelObjects) {
 	        var object = modelObjects[id];
 	        if (object) {
 	          modelObject = this.createModelInstance(object);
-	        } else {
-	          throw new Error('Object of class "' + modelPluralizedName + '" with id ' + id + ' was not found');
 	        }
 	      } else {
 	        throw new Error('Maybe you forgot to send the corresponding "' + modelPluralizedName + '" object in your objects hash on your Environment initialization');
